@@ -6,6 +6,8 @@ from flask_login import LoginManager
 app = Flask(__name__)
 # config
 app.config.from_object('config')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 # database
 db = SQLAlchemy(app)
 # login

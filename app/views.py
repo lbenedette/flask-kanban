@@ -81,3 +81,24 @@ def add_line(status):
         db.session.commit()
         return redirect(url_for('home'))
     return render_template('add_line.html', user=user, status=status)
+
+
+@app.route('/line/delete/<int:line_id>')
+def delete_line(line_id):
+    line = Row.query.get(line_id)
+    if line is not None:
+        db.session.delete(line)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return redirect(url_for('home'))
+
+
+@app.route('/line/update/<int:line_id>/<status>')
+def update_line(line_id, status):
+    line = Row.query.get(line_id)
+    if line is not None:
+        line.status = status
+        db.session.add(line)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return redirect(url_for('home'))

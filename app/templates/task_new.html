@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 text-center">
+                <h3>Adicionar tarefa</h3>
+                <form action="{{ url_for('task_new', status=status) }}" method="post">
+                    <div class="col-sm-12">
+                        <div class="row form-group">
+                            <textarea class="form-control" name="text" placeholder="Texto"></textarea>
+                        </div>
+                    </div>
+                    <input type="button" href="{{ url_for('home') }}" class="btn btn-default pull-left" value="Voltar">
+                    <input type="submit" class="btn btn-primary pull-right" value="Adicionar">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from app import app, db, login_manager
-from app.models import User, Row
+from app.models import User, Task
 from flask import render_template, request, redirect, url_for
 from flask_login import login_required, login_user, current_user, logout_user
 import bcrypt
@@ -28,7 +28,7 @@ def register():
             db.session.commit()
             return redirect(url_for('login'))
         # username já cadastrado
-    return render_template('register.html')
+    return render_template('register.html', title='registrar')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -45,7 +45,7 @@ def login():
                 login_user(user)
                 return redirect(url_for('home'))
         # error
-    return render_template('login.html')
+    return render_template('login.html', title='entrar')
 
 
 @app.route('/logout')
@@ -65,40 +65,43 @@ def logout():
 @login_required
 def home():
     user = current_user
-    todo = Row.query.filter_by(user_id=user.id, status=TODO).all()
-    doing = Row.query.filter_by(user_id=user.id, status=DOING).all()
-    done = Row.query.filter_by(user_id=user.id, status=DONE).all()
-    return render_template('home.html', user=user, todo=todo, doing=doing, done=done)
+    todo = Task.query.filter_by(user_id=user.id, status=TODO).all()
+    doing = Task.query.filter_by(user_id=user.id, status=DOING).all()
+    done = Task.query.filter_by(user_id=user.id, status=DONE).all()
+    return render_template('home.html', title='home', user=user, todo=todo, doing=doing, done=done)
 
 
-@app.route('/line/add/<status>', methods=['GET', 'POST'])
-def add_line(status):
+@app.route('/task/new/<status>', methods=['GET', 'POST'])
+@login_required
+def task_new(status):
     user = current_user
     if request.method == 'POST':
         text = request.form['text']
-        line = Row(text=text, status=status, user_id=user.id)
-        db.session.add(line)
+        task = Task(text=text, status=status, user_id=user.id)
+        db.session.add(task)
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template('add_line.html', user=user, status=status)
+    return render_template('task_new.html', title='nova tarefa', user=user, status=status)
 
 
-@app.route('/line/delete/<int:line_id>')
-def delete_line(line_id):
-    line = Row.query.get(line_id)
-    if line is not None:
-        db.session.delete(line)
+@app.route('/task/delete/<int:task_id>')
+@login_required
+def task_delete(task_id):
+    task = Task.query.get(task_id)
+    if task is not None:
+        db.session.delete(task)
         db.session.commit()
         return redirect(url_for('home'))
     return redirect(url_for('home'))
 
 
-@app.route('/line/update/<int:line_id>/<status>')
-def update_line(line_id, status):
-    line = Row.query.get(line_id)
-    if line is not None:
-        line.status = status
-        db.session.add(line)
+@app.route('/task/update/<int:task_id>/<status>')
+@login_required
+def task_update_status(task_id, status):
+    task = Task.query.get(task_id)
+    if task is not None:
+        task.status = status
+        db.session.add(task)
         db.session.commit()
         return redirect(url_for('home'))
     return redirect(url_for('home'))

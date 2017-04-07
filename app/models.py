@@ -8,7 +8,7 @@ class User(db.Model):
     username = db.Column(db.String(25))
     password = db.Column(db.String(60))
     authenticated = db.Column(db.Boolean, default=False)
-    rows = db.relationship('Row', foreign_keys='Row.user_id')
+    tasks = db.relationship('Task', foreign_keys='Task.user_id')
 
     def get_id(self):
         """Return the id to satisfy Flask-Login's requirements."""
@@ -27,8 +27,8 @@ class User(db.Model):
         return False
 
 
-class Row(db.Model):
-    __tablename__ = 'row'
+class Task(db.Model):
+    __tablename__ = 'task'
 
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255))

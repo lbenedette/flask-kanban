@@ -53,8 +53,8 @@ def login():
 def logout():
     user = current_user
     user.authenticated = False
-    user.session.add(user)
-    user.session.commit()
+    db.session.add(user)
+    db.session.commit()
     logout_user()
     # flash('Logout realizado com sucesso!')
     return redirect(url_for('login'))

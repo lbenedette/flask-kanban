@@ -1,0 +1,16 @@
+<div class="well well-sm">
+    <div class="text-center">
+        <a href=""><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+        {% if line.status == 'todo' %}
+            <a href=""><span class="glyphicon glyphicon-circle-arrow-right pull-right" aria-hidden="true"></span></a>
+        {% elif line.status == 'doing'%}
+            <a href=""><span class="glyphicon glyphicon-circle-arrow-left pull-left" aria-hidden="true"></span></a>
+            <a href=""><span class="glyphicon glyphicon-circle-arrow-right pull-right" aria-hidden="true"></span></a>
+        {% else %}
+            <a href=""><span class="glyphicon glyphicon-circle-arrow-left pull-left" aria-hidden="true"></span></a>
+        {% endif %}
+    </div>
+    <div class="text-justify">
+        {{ line.text }}
+    </div>
+</div>

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar navbar-default navbar-static-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{{ url_for('home') }}">KANBAN</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="">{{ user.username }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title text-center">
+                            <span class="label label-danger">TO DO</span>
+                            <a href="{{ url_for('add_line', status='todo') }}"><span class="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span></a>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        {% for line in todo %}
+                            {% include 'line.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title text-center">
+                            <span class="label label-warning">DOING</span>
+                            <a href="{{ url_for('add_line', status='doing') }}"><span class="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span></a>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        {% for line in doing %}
+                            {% include 'line.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title text-center">
+                            <span class="label label-success">DONE</span>
+                            <a href="{{ url_for('add_line', status='done') }}"><span class="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span></a>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        {% for line in done %}
+                            {% include 'line.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

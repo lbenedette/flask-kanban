@@ -85,10 +85,14 @@ def task_new(status):
     user = current_user
     if request.method == 'POST':
         text = request.form['text']
-        task = Task(text=text, status=status, user_id=user.id)
-        db.session.add(task)
-        db.session.commit()
-        return redirect(url_for('home'))
+        if text:
+            task = Task(text=text, status=status, user_id=user.id)
+            db.session.add(task)
+            db.session.commit()
+            flash('Tarefa adicionada com sucesso', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Não é possível adicionar uma tarefa vazia!', 'warning')
     return render_template('task_new.html', title='nova tarefa', user=user, status=status)
 
 

@@ -1,6 +1,6 @@
 from app import app, db, login_manager
 from app.models import User, Task
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required, login_user, current_user, logout_user
 import bcrypt
 
@@ -19,24 +19,32 @@ def load_user(user_id):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
+        name = request.form['name']
+        last_name = request.form['last_name']
         password = request.form['password']
-        user = User.query.filter_by(username=username).first()
+        re_password = request.form['re_password']
+        user = User.query.filter_by(email=email).first()
         if user is None:
-            user = User(username=username, password=bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode())
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('login'))
-        # username já cadastrado
+            if password == re_password:
+                user = User(email=email, name=name, last_name=last_name, password=bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode())
+                db.session.add(user)
+                db.session.commit()
+                flash('Cadastrado com sucesso!', 'success')
+                return redirect(url_for('login'))
+            else:
+                flash('A senha e a confirmação de senha devem ser iguais!', 'danger')
+        else:
+            flash('Endereço de email já cadastrado!', 'danger')
     return render_template('register.html', title='registrar')
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(email=email).first()
         if user:
             if bcrypt.hashpw(password.encode(), user.password.encode()).decode() == user.password:
                 user.authenticated = True
@@ -44,7 +52,7 @@ def login():
                 db.session.commit()
                 login_user(user)
                 return redirect(url_for('home'))
-        # error
+        flash('Email e/ou senha inválidos!', 'danger')
     return render_template('login.html', title='entrar')
 
 

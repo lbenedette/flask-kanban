@@ -14,5 +14,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+login_manager.login_message = 'É necessário estar logado para acessar essa página!'
+login_manager.login_message_category = 'warning'
 
 from app import views

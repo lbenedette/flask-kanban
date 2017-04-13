@@ -9,12 +9,27 @@
                 <form action="{{ url_for('register') }}" method="post">
                     <div class="col-sm-12 offse">
                         <div class="form-group">
-                            <input class="form-control" type="text" name="username" placeholder="Username">
+                            <input class="form-control" type="email" name="email" placeholder="Email">
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <input class="form-control" type="password" name="password" placeholder="Password">
+                            <input class="form-control" type="text" name="name" placeholder="Nome">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="last_name" placeholder="Sobrenome">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="password" placeholder="Senha">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="re_password" placeholder="Confirmar senha">
                         </div>
                     </div>
                     <div class="col-sm-12">

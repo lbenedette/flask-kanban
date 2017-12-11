@@ -1,0 +1,16 @@
+<div class="well well-sm">
+    <div class="text-center">
+        <a href="{{ url_for('task_delete', task_id=task.id) }}"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+        {% if task.status == 'todo' %}
+            <a href="{{ url_for('task_update_status', task_id=task.id, status='doing') }}"><span class="glyphicon glyphicon-circle-arrow-right pull-right" aria-hidden="true"></span></a>
+        {% elif task.status == 'doing'%}
+            <a href="{{ url_for('task_update_status', task_id=task.id, status='todo') }}"><span class="glyphicon glyphicon-circle-arrow-left pull-left" aria-hidden="true"></span></a>
+            <a href="{{ url_for('task_update_status', task_id=task.id, status='done') }}"><span class="glyphicon glyphicon-circle-arrow-right pull-right" aria-hidden="true"></span></a>
+        {% else %}
+            <a href="{{ url_for('task_update_status', task_id=task.id, status='doing') }}"><span class="glyphicon glyphicon-circle-arrow-left pull-left" aria-hidden="true"></span></a>
+        {% endif %}
+    </div>
+    <div class="text-justify" style="word-wrap: break-word;">
+        {{ task.text }}
+    </div>
+</div>

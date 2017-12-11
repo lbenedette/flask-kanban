@@ -1,6 +1,4 @@
-flask/
 .idea/*
 __pycache__/
-.env
-.vscode/
+venv/
 *.pyc

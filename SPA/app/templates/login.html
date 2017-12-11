@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4 text-center">
+                <h3>Entrar no sistema</h3>
+                <form action="{{ url_for('login') }}" method="post">
+                    <div class="col-sm-12 offse">
+                        <div class="form-group">
+                            <input class="form-control" type="email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="password" placeholder="Senha">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary btn-group-justified">Entrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

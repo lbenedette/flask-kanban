@@ -61,3 +61,19 @@ def task_update_status(task_id, status):
         db.session.commit()
         return redirect(url_for('home'))
     return redirect(url_for('home'))
+
+
+@app.route('/api/task/update/<int:task_id>/<status>')
+def update_task(task_id, status):
+    task = Task.query.get(task_id)
+    if task is not None:
+        task.status = status
+        db.session.add(task)
+        db.session.commit()
+        response = {
+            'todo': [item.serialize for item in Task.query.filter_by(status=TODO).all()],
+            'doing': [item.serialize for item in Task.query.filter_by(status=DOING).all()],
+            'done': [item.serialize for item in Task.query.filter_by(status=DONE).all()],
+        }
+        return jsonify(response)
+    return jsonify({})

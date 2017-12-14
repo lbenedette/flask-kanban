@@ -8,9 +8,22 @@ class App extends Component {
     this.state = {todo: [], doing: [], done: []};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     $.ajax({
         url: 'http://127.0.0.1:5000/api/tasks',
+        dataType: 'json',
+        success: function (response) {
+          this.setState({todo: response.todo, doing: response.doing, done: response.done});
+        }.bind(this)
+      }
+    );
+  }
+
+  moveTask(task_id, status, event) {
+    event.preventDefault();
+    console.log(task_id);
+    $.ajax({
+        url: 'http://127.0.0.1:5000/api/task/update/' + task_id + '/' + status,
         dataType: 'json',
         success: function (response) {
           this.setState({todo: response.todo, doing: response.doing, done: response.done});
@@ -49,13 +62,17 @@ class App extends Component {
                   {
                     this.state.todo.map(function (task) {
                       return (
-                        <div className="well well-sm">
+                        <div className="well well-sm" key={task.id}>
+                          <div className="text-center">
+                            <a><span className="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+                            <a onClick={this.moveTask.bind(this, task.id, 'doing')}><span className="glyphicon glyphicon-circle-arrow-right pull-right" aria-hidden="true"></span></a>
+                          </div>
                           <div className="text-justify task">
                             {task.text}
                           </div>
                         </div>
                       )
-                    })
+                    }.bind(this))
                   }
                 </div>
               </div>
@@ -73,13 +90,18 @@ class App extends Component {
                   {
                     this.state.doing.map(function (task) {
                       return (
-                        <div className="well well-sm">
+                        <div className="well well-sm" key={task.id}>
+                          <div className="text-center">
+                            <a href="#"><span className="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+                            <a onClick={this.moveTask.bind(this, task.id, 'done')}><span className="glyphicon glyphicon-circle-arrow-right pull-right" aria-hidden="true"></span></a>
+                            <a onClick={this.moveTask.bind(this, task.id, 'todo')}><span className="glyphicon glyphicon-circle-arrow-left pull-left" aria-hidden="true"></span></a>
+                          </div>
                           <div className="text-justify task">
                             {task.text}
                           </div>
                         </div>
                       )
-                    })
+                    }.bind(this))
                   }
                 </div>
               </div>
@@ -97,13 +119,17 @@ class App extends Component {
                   {
                     this.state.done.map(function (task) {
                       return (
-                        <div className="well well-sm">
+                        <div className="well well-sm" key={task.id}>
+                          <div className="text-center">
+                            <a href="#"><span className="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+                            <a onClick={this.moveTask.bind(this, task.id, 'doing')}><span className="glyphicon glyphicon-circle-arrow-left pull-left" aria-hidden="true"></span></a>
+                          </div>
                           <div className="text-justify task">
                             {task.text}
                           </div>
                         </div>
                       )
-                    })
+                    }.bind(this))
                   }
                 </div>
               </div>

@@ -21,12 +21,23 @@ class App extends Component {
 
   moveTask(task_id, status, event) {
     event.preventDefault();
-    console.log(task_id);
     $.ajax({
         url: 'http://127.0.0.1:5000/api/task/update/' + task_id + '/' + status,
         dataType: 'json',
         success: function (response) {
           this.setState({todo: response.todo, doing: response.doing, done: response.done});
+        }.bind(this)
+      }
+    );
+  }
+
+  deleteTask(task_id, status, event) {
+    event.preventDefault();
+    $.ajax({
+        url: 'http://127.0.0.1:5000/api/task/delete/' + task_id,
+        dataType: 'json',
+        success: function (response) {
+          this.setState({[status]: response.tasks});
         }.bind(this)
       }
     );
@@ -64,7 +75,7 @@ class App extends Component {
                       return (
                         <div className="well well-sm" key={task.id}>
                           <div className="text-center">
-                            <a><span className="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+                            <a onClick={this.deleteTask.bind(this, task.id, 'todo')}><span className="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
                             <a onClick={this.moveTask.bind(this, task.id, 'doing')}><span className="glyphicon glyphicon-circle-arrow-right pull-right" aria-hidden="true"></span></a>
                           </div>
                           <div className="text-justify task">

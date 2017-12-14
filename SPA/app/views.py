@@ -43,13 +43,27 @@ def task_new(status):
 
 
 @app.route('/task/delete/<int:task_id>')
-def task_delete(task_id):
+def delete_task(task_id):
     task = Task.query.get(task_id)
     if task is not None:
         db.session.delete(task)
         db.session.commit()
         return redirect(url_for('home'))
     return redirect(url_for('home'))
+
+
+@app.route('/api/task/delete/<int:task_id>')
+def task_delete(task_id):
+    task = Task.query.get(task_id)
+    if task is not None:
+        status = task.status
+        db.session.delete(task)
+        db.session.commit()
+        response = {
+            'tasks': [item.serialize for item in Task.query.filter_by(status=status).all()]
+        }
+        return jsonify(response)
+    return jsonify({})
 
 
 @app.route('/task/update/<int:task_id>/<status>')

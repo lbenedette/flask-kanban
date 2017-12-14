@@ -5,3 +5,7 @@
     right: 0;
     z-index: 100;
 }
+
+.task {
+    word-wrap: break-word;
+}

@@ -1,10 +1,22 @@
 import React, {Component} from 'react';
-import './css/style.css';
+import $ from 'jquery';
+
 
 class App extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {todo: [], doing: [], done: []};
+  }
+
+  componentWillMount() {
+    $.ajax({
+        url: 'http://127.0.0.1:5000/api/tasks',
+        dataType: 'json',
+        success: function (response) {
+          this.setState({todo: response.todo, doing: response.doing, done: response.done});
+        }.bind(this)
+      }
+    );
   }
 
   render() {
@@ -34,6 +46,17 @@ class App extends Component {
                 </div>
                 <div className="panel-body">
                   {/*todo itens*/}
+                  {
+                    this.state.todo.map(function (task) {
+                      return (
+                        <div className="well well-sm">
+                          <div className="text-justify task">
+                            {task.text}
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
                 </div>
               </div>
             </div>
@@ -47,6 +70,17 @@ class App extends Component {
                 </div>
                 <div className="panel-body">
                   {/*doing itens*/}
+                  {
+                    this.state.doing.map(function (task) {
+                      return (
+                        <div className="well well-sm">
+                          <div className="text-justify task">
+                            {task.text}
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
                 </div>
               </div>
             </div>
@@ -60,6 +94,17 @@ class App extends Component {
                 </div>
                 <div className="panel-body">
                   {/*done itens*/}
+                  {
+                    this.state.done.map(function (task) {
+                      return (
+                        <div className="well well-sm">
+                          <div className="text-justify task">
+                            {task.text}
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
                 </div>
               </div>
             </div>

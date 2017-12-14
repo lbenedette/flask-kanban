@@ -1,18 +1,70 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import './css/style.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <div>
+        <div className="container-fluid">
+          <div className="row">
+            <nav className="navbar navbar-default navbar-static-top">
+              <div className="container-fluid">
+                <div className="navbar-header">
+                  <a className="navbar-brand" href="#">Kanban</a>
+                </div>
+              </div>
+            </nav>
+          </div>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-4">
+              <div className="panel panel-danger">
+                <div className="panel-heading">
+                  <h3 className="panel-title text-center">
+                    TO DO
+                    <a href="#"><span className="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span></a>
+                  </h3>
+                </div>
+                <div className="panel-body">
+                  {/*todo itens*/}
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-4">
+              <div className="panel panel-warning">
+                <div className="panel-heading">
+                  <h3 className="panel-title text-center">
+                    DOING
+                    <a href="#"><span className="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span></a>
+                  </h3>
+                </div>
+                <div className="panel-body">
+                  {/*doing itens*/}
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-4">
+              <div className="panel panel-success">
+                <div className="panel-heading">
+                  <h3 className="panel-title text-center">
+                    DONE
+                    <a href="#"><span className="glyphicon glyphicon-plus pull-right" aria-hidden="true"></span></a>
+                  </h3>
+                </div>
+                <div className="panel-body">
+                  {/*done itens*/}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
